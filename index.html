@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game hứng táo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hứng Táo</title>
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
-  <body>
-    <header>
-      <p>Phaser Demo | Apple Catcher | A Facebook Instance Game 2025 by HaHuyNam-K215480106063@tnut.edu.vn</p>
-    </header>
-    <main>
+  <body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar điều khiển -->
+    <nav class="navbar navbar-expand bg-dark navbar-dark">
+      <div class="container-fluid">
+        <button id="pauseBtn" class="btn btn-warning"><i class="fa-solid fa-pause"></i> Tạm dừng</button>
+        <button id="resumeBtn" class="btn btn-success"><i class="fa-solid fa-play"></i> Tiếp tục</button>
+        <button id="restartBtn" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Chơi lại</button>
+        <button id="menuBtn" class="btn btn-primary"><i class="fa-solid fa-bars"></i> Về menu</button>
+      </div>
+    </nav>
+    <div id="statusDiv" class="status-box">Game Running...</div>
+    <!-- Menu bắt đầu -->
+    <div id="startMenu" class="gameUI">
+      <h1>Apple Catcher</h1>
+      <button id="startGameBtn" class="btn btn-success"><i class="fa-solid fa-play"></i> Chơi</button>
+      <button id="settingsBtn" class="btn btn-secondary"><i class="fa-solid fa-cog"></i> Cài đặt</button>
+    </div>
+
+    <!-- Khu vực game -->
+    <main class="d-flex justify-content-center align-items-center flex-grow-1">
       <canvas id="gameCanvas"></canvas>
-      <!-- <div id="gameStartDiv" class="gameUI">
-        <h1>Apple Catcher</h1>
-        <p>You have 30 seconds to catch apples!</p>
-        <p>If you catch more than 10 apples you win.</p>
-        <p>If you catch less than 10 apples you lose.</p>
-        <p>Click the start button to begin</p>
-        <button id="gameStartBtn"><p>start</p></button>
-      </div>
-      <div id="gameEndDiv" class="gameUI">
-        <p>Game Over</p>
-        <h1>You <span id="gameWinLoseSpan"></span></h1>
-        <h1>Final Score: <span id="gameEndScoreSpan"></span></h1>
-        <p>Refresh the Page to play again</p>
-      </div>
-      </div> -->
     </main>
-    <footer>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+      <p><i class="fa-solid fa-copyright"></i> 2025 - Developed by HaHuyNam</p>
     </footer>
+
     <script type="module" src="/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   </body>
 </html>
