@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Tracking Toggle</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Nút bật/tắt webcam -->
+    <button id="Nut_Webcam">Bật Webcam</button>
+
+    <!-- Khung mô phỏng bàn tay -->
+    <div id="canvas_feedback">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- Tải thư viện MediaPipe -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
+    <script src="script.js"></script>
+</body>
+</html>
