@@ -1,46 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="vi">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Hứng Táo</title>
-
-    <!-- Bootstrap 5 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
-  </head>
-  <body class="d-flex flex-column min-vh-100">
+</head>
+<body>
 
-    <!-- Navbar điều khiển -->
-    <nav class="navbar navbar-expand bg-dark navbar-dark">
-      <div class="container-fluid">
-        <button id="pauseBtn" class="btn btn-warning"><i class="fa-solid fa-pause"></i> Tạm dừng</button>
-        <button id="resumeBtn" class="btn btn-success"><i class="fa-solid fa-play"></i> Tiếp tục</button>
-        <button id="menuBtn" class="btn btn-primary"><i class="fa-solid fa-bars"></i> Về menu</button>
-      </div>
+    <!-- Thanh điều khiển -->
+    <nav id="Game_NavBar">
+        <button id="NutNhan_TamDung">Tạm dừng</button>
+        <button id="NutNhan_TiepTuc">Tiếp tục</button>
+        <button id="NutNhan_Menu">Menu</button>
     </nav>
-    <div id="statusDiv" class="status-box">Game Running...</div>
+
+    <!-- Trạng thái game -->
+    <div id="TrangThai_Game">Game Đang Chạy...</div>
+
     <!-- Menu bắt đầu -->
-    <div id="startMenu" class="gameUI">
-      <h1>Apple Catcher</h1>
-      <button id="startGameBtn" class="btn btn-success"><i class="fa-solid fa-play"></i> Chơi</button>
-      <button id="settingsBtn" class="btn btn-secondary"><i class="fa-solid fa-cog"></i> Cài đặt</button>
+    <div id="Menu_BatDau">
+        <h1 id="Menu_TieuDe">Game Hứng Táo</h1>
+        <button id="NutNhan_BatDau">Chơi ngay</button>
+        <button id="NutNhan_CaiDat">Cài đặt</button>
     </div>
 
     <!-- Khu vực game -->
-    <main class="d-flex justify-content-center align-items-center flex-grow-1">
-      <canvas id="gameCanvas"></canvas>
+    <main id="Khung_Game">
+        <canvas id="Game_Canvas"></canvas>
     </main>
-    
+
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
-      <p><i class="fa-solid fa-copyright"></i> 2025 - Developed by HaHuyNam</p>
+    <footer id="Game_Footer">
+        <p>&copy; 2025 - Developed by HaHuyNam</p>
     </footer>
 
-    <script type="module" src="/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/main.js"></script>
 
-  </body>
+</body>
 </html>

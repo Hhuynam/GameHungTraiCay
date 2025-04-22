@@ -1,59 +1,56 @@
-:root {
-  --dkClr: #181818;
-  --liClr: whitesmoke;
-  --accClr: #0d0d35;
+/* Thiết lập màu sắc chung */
+#Menu_BatDau {
+  background-color: #ff5733; /* Màu nền menu */
+  text-align: center; /* Căn giữa nội dung */
+  padding: 20px;
+  border-radius: 10px; /* Bo góc */
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+#Menu_BatDau_h1 {
+  color: white; /* Màu chữ của tiêu đề */
 }
-
-body {
-  background-color: var(--dkClr);
-  color: var(--liClr);
-}
-
-nav {
+/* Navbar */
+.Menu_NavBar {
   padding: 10px;
-  display: flex;
-  justify-content: space-around;
 }
-
-/* Menu bắt đầu */
-.gameUI {
-  width: 100%;
-  height: 100%;
-  background-color: var(--accClr);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-}
-
-#startMenu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-canvas {
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
-}
-
-.status-box {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  font-size: 20px;
+.NutNhan_NavBar {
+  font-size: 16px;
+  padding: 8px 12px;
   border-radius: 5px;
-  display: none;
+}
+/* Canvas Game */
+#Game_Canvas{
+  border: 2px solid #ff5733; /* Viền game màu cam */
+  display: block;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+/* Footer */
+Game_Footer {
+  background: #222;
+  text-align: center;
+  padding: 15px;
+  color: white;
+}
+
+/* Nút Menu */
+#NutNhan_Menu{
+  background: white;
+  color: black;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+#NutNhan_BatDau:hover {
+  background: black;
+  color: white;
+  transform: scale(1.1);
+}
+/* Nút Cài đặt */
+#NutNhan_CaiDat{
+  background: gray;
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
 }

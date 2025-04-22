@@ -1,163 +1,156 @@
 import "./style.css";
 import Phaser from "phaser";
 
-const sizes = { width: 500, height: 500 };
-const speedDown = 300;
-let isPaused = false;
+const KichThuoc = { Rong: 500, Cao: 500 };
+const TocDo_Roi = 300;
+let Game_DangTamDung = false;
 
-const gameCanvas = document.getElementById("gameCanvas");
-const startMenu = document.getElementById("startMenu");
-const startGameBtn = document.getElementById("startGameBtn");
+const Canvas_Game = document.getElementById("Canvas_Game");
+const Menu_BatDau = document.getElementById("Menu_BatDau");
+const NutNhan_BatDau_Game = document.getElementById("NutNhan_BatDau_Game");
 
-const pauseBtn = document.getElementById("pauseBtn");
-const resumeBtn = document.getElementById("resumeBtn");
-const menuBtn = document.getElementById("menuBtn");
+const NutNhan_TamDung_Game = document.getElementById("NutNhan_TamDung_Game");
+const NutNhan_TiepTuc_Game = document.getElementById("NutNhan_TiepTuc_Game");
+const NutNhan_Menu_Game = document.getElementById("NutNhan_Menu_Game");
 
-class GameScene extends Phaser.Scene {
+class ManChoi_Game extends Phaser.Scene {
   constructor() {
-    super("scene-game");
-    this.player = null;
-    this.target = null;
-    this.points = 0;
-    this.cursor = null;
-    this.textScore = null;
+    super("ManChoi_Game");
+    this.GioHung = null;
+    this.Tao = null;
+    this.DiemSo = 0;
+    this.BanPhim = null;
+    this.VanBan_DiemSo = null;
+    this.ThoiGian_Choi = 0;
   }
 
+  // Tải tài nguyên
   preload() {
-    this.load.image("bg", "/assets/bg.png");
-    this.load.image("basket", "/assets/basket.png");
-    this.load.image("apple", "/assets/apple.png");
-    this.load.audio("coin", "/assets/coin.mp3"); // Âm thanh khi hứng táo
-    this.load.audio("bgMusic", "/assets/bgMusic.mp3"); // Nhạc nền
+    this.load.image("NenGame", "/assets/bg.png");
+    this.load.image("GioHung", "/assets/basket.png");
+    this.load.image("Tao", "/assets/apple.png");
+    this.load.audio("AmThanh_Diem", "/assets/coin.mp3");
+    this.load.audio("NhacNen", "/assets/bgMusic.mp3");
   }
 
   create() {
-    this.add.image(0, 0, "bg").setOrigin(0, 0);
-    this.playTime = 0;
-    this.textTime = this.add.text(10, 40, "Time: 0s", { font: "25px Arial", fill: "#ffffff" });
+    this.add.image(0, 0, "NenGame").setOrigin(0, 0);
+    this.VanBan_ThoiGian = this.add.text(10, 40, "Thời gian: 0s", { font: "25px Arial", fill: "#ffffff" });
 
-    // Khởi tạo âm thanh
-    this.coinMusic = this.sound.add("coin");
-    this.bgMusic = this.sound.add("bgMusic", { loop: true, volume: 0.5 });
-    this.bgMusic.play(); // Bắt đầu phát nhạc nền
+    // Âm thanh
+    this.AmThanh_Diem = this.sound.add("AmThanh_Diem");
+    this.NhacNen = this.sound.add("NhacNen", { loop: true, volume: 0.5 });
 
     // Tạo giỏ hứng
-    this.player = this.physics.add.image(sizes.width / 2, sizes.height - 100, "basket").setOrigin(0.5, 0);
-    this.player.setCollideWorldBounds(true);
+    this.GioHung = this.physics.add.image(KichThuoc.Rong / 2, KichThuoc.Cao - 100, "GioHung").setOrigin(0.5, 0);
+    this.GioHung.setCollideWorldBounds(true);
 
     // Táo rơi
-    this.target = this.physics.add.image(this.getRandomX(), 0, "apple").setOrigin(0.5, 0);
-    this.target.setVelocityY(speedDown);
+    this.Tao = this.physics.add.image(this.LayViTriTao_NgauNhien(), 0, "Tao").setOrigin(0.5, 0);
+    this.Tao.setVelocityY(TocDo_Roi);
 
-    this.physics.add.overlap(this.target, this.player, this.targetHit, null, this);
+    this.physics.add.overlap(this.Tao, this.GioHung, this.BatTao, null, this);
 
-    this.cursor = this.input.keyboard.createCursorKeys();
+    this.BanPhim = this.input.keyboard.createCursorKeys();
+    this.VanBan_DiemSo = this.add.text(10, 10, "Điểm số: 0", { font: "25px Arial", fill: "#ffffff" });
 
-    this.textScore = this.add.text(10, 10, "Score: 0", { font: "25px Arial", fill: "#ffffff" });
-
-    this.scene.pause("scene-game"); // Dừng game khi bắt đầu
+    this.scene.pause("ManChoi_Game");
   }
 
-  update(time, delta) {
-    if (isPaused) return;
+  update(thoiGian, delta) {
+    if (Game_DangTamDung) return;
 
-    // Cập nhật thời gian chơi (tăng theo mili giây)
-    this.playTime += delta / 1000;
-    this.textTime.setText(`Time: ${Math.floor(this.playTime)}s`);
+    // Cập nhật thời gian chơi
+    this.ThoiGian_Choi += delta / 1000;
+    this.VanBan_ThoiGian.setText(`Thời gian: ${Math.floor(this.ThoiGian_Choi)}s`);
 
-    // Xử lý di chuyển giỏ
-    const { left, right } = this.cursor;
-    if (left.isDown) {
-      this.player.setVelocityX(-300);
-    } else if (right.isDown) {
-      this.player.setVelocityX(300);
-    } else {
-      this.player.setVelocityX(0);
-    }
+    // Di chuyển giỏ hứng
+    const { left, right } = this.BanPhim;
+    this.GioHung.setVelocityX(left.isDown ? -300 : right.isDown ? 300 : 0);
 
-    // Xử lý táo rơi
-    if (this.target.y >= sizes.height) {
-      this.target.setY(0);
-      this.target.setX(this.getRandomX());
+    // Táo rơi xuống thì đặt lại vị trí
+    if (this.Tao.y >= KichThuoc.Cao) {
+      this.DatLaiViTriTao();
     }
   }
 
-  getRandomX() {
-    return Math.floor(Math.random() * (sizes.width - 20)) + 10;
+  LayViTriTao_NgauNhien() {
+    return Math.floor(Math.random() * (KichThuoc.Rong - 20)) + 10;
   }
 
-  targetHit() {
-    this.target.setY(0);
-    this.target.setX(this.getRandomX());
-    this.points++;
-    this.textScore.setText(`Score: ${this.points}`);
+  BatTao() {
+    this.DatLaiViTriTao();
+    this.DiemSo++;
+    this.VanBan_DiemSo.setText(`Điểm số: ${this.DiemSo}`);
+    this.AmThanh_Diem.play();
+  }
 
-    this.coinMusic.play(); // Phát âm thanh khi bắt táo
-    this.target.setY(0);
-    this.target.setX(this.getRandomX());
-    this.points++;
-    this.textScore.setText(`Score: ${this.points}`);
+  DatLaiViTriTao() {
+    this.Tao.setY(0);
+    this.Tao.setX(this.LayViTriTao_NgauNhien());
+  }
+
+  KhoiDongLai_Game() {
+    this.DiemSo = 0;
+    this.VanBan_DiemSo.setText("Điểm số: 0");
+    this.ThoiGian_Choi = 0;
+    this.VanBan_ThoiGian.setText("Thời gian: 0s");
+    this.DatLaiViTriTao();
   }
 }
 
 // Cấu hình game
-const config = {
+const CauHinh_Game = {
   type: Phaser.WEBGL,
-  width: sizes.width,
-  height: sizes.height,
-  canvas: gameCanvas,
+  width: KichThuoc.Rong,
+  height: KichThuoc.Cao,
+  canvas: Canvas_Game,
   physics: { default: "arcade", arcade: { gravity: { y: 0 } } },
-  scene: [GameScene],
+  scene: [ManChoi_Game],
 };
 
 // Khởi động game
-const game = new Phaser.Game(config);
-const gameScene = game.scene.getScene("scene-game");
+const Game = new Phaser.Game(CauHinh_Game);
+const ManChoi_Game_HienTai = Game.scene.getScene("ManChoi_Game");
 
-pauseBtn.addEventListener("click", () => {
-  game.scene.pause("scene-game");
-  isPaused = true;
-  showStatus("Game Paused"); // Hiển thị thông báo
+NutNhan_TamDung_Game.addEventListener("click", () => {
+  Game.scene.pause("ManChoi_Game");
+  Game_DangTamDung = true;
+  HienThi_TrangThai("Game tạm dừng");
 });
 
-resumeBtn.addEventListener("click", () => {
-  game.scene.resume("scene-game");
-  isPaused = false;
-  showStatus("Game Resumed"); // Hiển thị thông báo
+NutNhan_TiepTuc_Game.addEventListener("click", () => {
+  Game.scene.resume("ManChoi_Game");
+  Game_DangTamDung = false;
+  HienThi_TrangThai("Game tiếp tục");
 });
 
-menuBtn.addEventListener("click", () => {
-  game.scene.pause("scene-game");
-  startMenu.style.display = "flex";
-  isPaused = true;
-  showStatus("Back to Menu"); // Hiển thị thông báo
+NutNhan_Menu_Game.addEventListener("click", () => {
+  ManChoi_Game_HienTai.scene.restart();
+  Game.scene.pause("ManChoi_Game");
+  Menu_BatDau.style.display = "flex";
+  Game_DangTamDung = true;
+  ManChoi_Game_HienTai.NhacNen.stop();
+
+  alert(`Điểm số: ${ManChoi_Game_HienTai.DiemSo}\nThời gian chơi: ${Math.floor(ManChoi_Game_HienTai.ThoiGian_Choi)}s`);
 });
 
-startGameBtn.addEventListener("click", () => {
-  startMenu.style.display = "none";
-  game.scene.resume("scene-game");
-  gameScene.bgMusic.play(); // Chạy nhạc nền khi bắt đầu game
+NutNhan_BatDau_Game.addEventListener("click", () => {
+  Menu_BatDau.style.display = "none";
+  Game.scene.resume("ManChoi_Game");
+
+  if (!ManChoi_Game_HienTai.NhacNen.isPlaying) {
+    ManChoi_Game_HienTai.NhacNen.play();
+  }
 });
 
-menuBtn.addEventListener("click", () => {
-  gameScene.restartGame(); // Khởi động lại game
-  game.scene.pause("scene-game");
-  startMenu.style.display = "flex";
-  isPaused = true;
-  gameScene.bgMusic.stop(); // Truy cập nhạc nền từ gameScene
+const TrangThai_Game = document.getElementById("statusDiv");
 
-  // Hiển thị điểm số & thời gian đã chơi
-  alert(`Điểm số: ${gameScene.points}\nThời gian chơi: ${Math.floor(gameScene.playTime)}s`);
-});
-
-const statusDiv = document.getElementById("statusDiv");
-
-function showStatus(message) {
-  statusDiv.textContent = message;
-  statusDiv.style.display = "block";
+function HienThi_TrangThai(thongBao) {
+  TrangThai_Game.textContent = thongBao;
+  TrangThai_Game.style.display = "block";
 
   setTimeout(() => {
-    statusDiv.style.display = "none";
+    TrangThai_Game.style.display = "none";
   }, 2000);
 }
-s

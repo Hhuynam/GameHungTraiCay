@@ -5,3 +5,5 @@
 -Nut bat tat camera
 
 -Canvas hien thi cu chi tay handgesture
+
+-Cai dat hot rerun trong vite de auto load lai thay doi web
