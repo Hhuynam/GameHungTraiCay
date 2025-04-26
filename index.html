@@ -6,61 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Hứng Táo</title>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background-color: #181818;
-      color: white;
-      height: 100vh;
-    }
-
-    canvas {
-      border: 2px solid white;
-      width: 500px;
-      height: 500px;
-      border-radius: 5px;
-    }
-
-    #mainMenu,
-    #settings,
-    #gameScreen {
-      padding: 20px;
-      display: none;
-    }
-
-    button {
-      width: 200px;
-      padding: 12px;
-      font-size: 18px;
-      font-weight: bold;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      background: #3498db;
-      color: white;
-      transition: 0.3s ease-in-out;
-      margin: 10px;
-    }
-
-    button:hover {
-      background: #2980b9;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Game Hứng Táo</h1>
+  <h1 id="gameTitle">Game Hứng Táo</h1>
 
   <div id="mainMenu" style="display: block;">
     <button id="startGameBtn">Chơi ngay</button>
@@ -68,23 +18,30 @@
   </div>
 
   <div id="settings">
-    <label>Tốc độ rơi: <input id="speedSlider" type="range" min="10" max="100" step="10" value="50"></label>
+    <label id="fallSpeedLabel">Tốc độ rơi: <input id="speedSlider" type="range" min="10" max="100" step="10"
+        value="50"></label>
     <span id="speedValue">50</span>
-
-    <label>Tốc độ di chuyển giỏ: <input id="basketSpeedSlider" type="range" min="50" max="500" step="50"
-        value="200"></label>
+    <br><br>
+    <label id="basketSpeedLabel">Tốc độ di chuyển giỏ: <input id="basketSpeedSlider" type="range" min="50" max="500"
+        step="50" value="200"></label>
     <span id="basketSpeedValue">200</span>
 
-    <h3>Chọn kiểu điều khiển:</h3>
-    <label><input type="radio" name="controlType" value="keyboard" checked> Bàn phím</label>
-    <label><input type="radio" name="controlType" value="handtracking"> Hand Tracking</label>
+    <h3 id="controlTypeTitle">Chọn kiểu điều khiển:</h3>
+    <label><input type="radio" name="controlType" value="keyboard" checked> <span id="keyboardLabel">Bàn
+        phím</span></label>
+    <label><input type="radio" name="controlType" value="handtracking"> <span id="handtrackingLabel">Hand
+        Tracking</span></label>
 
-    <h3>Chọn ngôn ngữ:</h3>
+    <h3 id="languageSelectTitle">Chọn ngôn ngữ:</h3>
     <select id="languageSelect">
       <option value="vi" selected>Tiếng Việt</option>
       <option value="en">English</option>
       <option value="zh">中文</option>
     </select>
+
+    <h3>Chọn chế độ chơi:</h3>
+    <label><input type="radio" name="gameMode" value="free" checked> Chế độ Tự Do</label>
+    <label><input type="radio" name="gameMode" value="60s"> Chế độ 60 Giây</label>
 
     <button id="saveSettingsBtn">Lưu</button>
     <button id="backToMenuBtn">Quay lại</button>
@@ -95,116 +52,7 @@
     <button id="returnToMenuBtn">Về Menu</button>
   </div>
 
-  <script>
-    let game;
-    let speedDown = 50;
-    let basketSpeed = 200;
-
-    class GameScene extends Phaser.Scene {
-      constructor() {
-        super("scene-game");
-        this.player;
-        this.target;
-        this.cursor;
-        this.score = 0;
-        this.timeElapsed = 0;
-        this.scoreText;
-        this.timeText;
-        this.controlText;
-      }
-
-      preload() {
-        this.load.image("bg", "public/assets/caytao.png");
-        this.load.image("basket", "public/assets/basket.png");
-        this.load.image("apple", "public/assets/apple.png");
-      }
-
-      create() {
-        this.add.image(0, 0, "bg").setOrigin(0, 0);
-        this.player = this.physics.add.image(250, 400, "basket").setCollideWorldBounds(true);
-        this.target = this.physics.add.image(Math.random() * 500, 0, "apple").setVelocityY(speedDown);
-        this.cursor = this.input.keyboard.createCursorKeys();
-
-        this.scoreText = this.add.text(10, 10, "Điểm: 0", { fontSize: "22px", fill: "#ffcc00", stroke: "#000", strokeThickness: 2 });
-        this.timeText = this.add.text(10, 40, "Thời gian: 0s", { fontSize: "20px", fill: "#66ff99", stroke: "#000", strokeThickness: 2 });
-        this.controlText = this.add.text(10, 70, "Điều khiển: Bàn phím", { fontSize: "18px", fill: "#ffffff", strokeThickness: 1 });
-
-        this.physics.add.overlap(this.player, this.target, this.catchApple, null, this);
-      }
-
-      update() {
-        const savedControlType = localStorage.getItem("controlType") || "keyboard";
-        this.controlText.setText("Điều khiển: " + (savedControlType === "keyboard" ? "Bàn phím" : "Hand Tracking"));
-
-        if (this.cursor.left.isDown) {
-          this.player.setVelocityX(-basketSpeed);
-        } else if (this.cursor.right.isDown) {
-          this.player.setVelocityX(basketSpeed);
-        } else {
-          this.player.setVelocityX(0);
-        }
-
-        this.timeElapsed += this.game.loop.delta / 1000;
-        this.timeText.setText("Thời gian: " + Math.floor(this.timeElapsed) + "s");
-
-        if (this.target.y >= 500) {
-          this.target.setY(0);
-          this.target.setX(Math.random() * 500);
-        }
-      }
-
-      catchApple() {
-        this.score += 10;
-        this.scoreText.setText("Điểm: " + this.score);
-        this.target.setY(0);
-        this.target.setX(Math.random() * 500);
-      }
-    }
-
-    document.getElementById("settingsBtn").addEventListener("click", () => {
-      document.getElementById("mainMenu").style.display = "none";
-      document.getElementById("settings").style.display = "block";
-    });
-
-    document.getElementById("saveSettingsBtn").addEventListener("click", () => {
-      speedDown = parseInt(document.getElementById("speedSlider").value);
-      basketSpeed = parseInt(document.getElementById("basketSpeedSlider").value);
-
-      const selectedControl = document.querySelector('input[name="controlType"]:checked').value;
-      localStorage.setItem("controlType", selectedControl);
-      localStorage.setItem("fallSpeed", speedDown);
-      localStorage.setItem("basketSpeed", basketSpeed);
-
-      alert("Cài đặt đã được lưu!");
-
-      document.getElementById("backToMenuBtn").addEventListener("click", () => {
-        document.getElementById("settings").style.display = "none";
-        document.getElementById("mainMenu").style.display = "block";
-      });
-
-    });
-
-    document.getElementById("startGameBtn").addEventListener("click", () => {
-      document.getElementById("mainMenu").style.display = "none";
-      document.getElementById("gameScreen").style.display = "block";
-
-      if (game) game.destroy(true);
-      game = new Phaser.Game({
-        type: Phaser.WEBGL,
-        width: 500,
-        height: 500,
-        canvas: document.querySelector("#gameCanvas"),
-        physics: { default: "arcade", arcade: { gravity: { y: speedDown } } },
-        scene: [GameScene],
-      });
-    });
-
-    document.getElementById("returnToMenuBtn").addEventListener("click", () => {
-      document.getElementById("gameScreen").style.display = "none";
-      document.getElementById("mainMenu").style.display = "block";
-      if (game) game.destroy(true);
-    });
-  </script>
+  <script type="module" src="game.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #121212;
+  color: #ffffff;
+  min-height: 100vh;
+  padding-top: 40px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffcc00;
+  text-shadow: 2px 2px #000;
+}
+
+canvas {
+  border: 3px solid #ffffff;
+  width: 500px;
+  height: 500px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+}
+
+#mainMenu, #settings, #gameScreen {
+  padding: 20px;
+  background-color: rgba(30, 30, 30, 0.9);
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+  margin-top: 20px;
+  display: none;
+}
+
+button {
+  width: 220px;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  transition: all 0.3s ease;
+  margin: 10px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #5dade2, #3498db);
+  transform: scale(1.05);
+}
+select {
+    width: 220px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: white;
+    transition: all 0.3s ease;
+    appearance: none; /* Ẩn kiểu mặc định của trình duyệt */
+    text-align: center;
+}
+
+select:hover {
+    background: linear-gradient(135deg, #5dade2, #3498db);
+    transform: scale(1.05);
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(52, 152, 219, 0.8);
+}
+
+option {
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px;
+}
