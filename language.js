@@ -1,3 +1,4 @@
+//languageData.js
 export const languageData = {
     vi: {
       title: "Game Hứng Táo",
