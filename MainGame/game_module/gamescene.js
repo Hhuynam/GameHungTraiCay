@@ -1,4 +1,5 @@
 //gamescene.js
+import { getCurrentHandX } from './handsModule.js';
 import { languageData } from './language.js';
 export class GameScene extends Phaser.Scene {
     constructor() {
@@ -20,8 +21,14 @@ export class GameScene extends Phaser.Scene {
         this.load.image("bg", "public/assets/caytao.png");
         this.load.image("basket", "public/assets/basket.png");
         this.load.image("apple", "public/assets/apple.png");
+        // Âm thanh game 
+        this.load.audio("bgMusic", "public/assets/bgMusic.mp3");
+        this.load.audio("coinSound", "public/assets/coin.mp3");
     }
     create() {
+        //Âm thanh background
+        this.bgMusic = this.sound.add("bgMusic", { loop: true, volume: 0.5 });
+        this.bgMusic.play();
         if (this.mode === "60s") {
             this.timerText = this.add.text(300, 10, "60", { fontSize: "22px", fill: "#ff3333", stroke: "#000", strokeThickness: 2 });
         }
@@ -53,13 +60,22 @@ export class GameScene extends Phaser.Scene {
         } else {
             this.timeElapsed += this.game.loop.delta / 1000;
             this.timeText.setText(`${texts.time}: ${Math.floor(this.timeElapsed)}s`);
-        }
-        if (this.cursor.left.isDown) {
-            this.player.setVelocityX(-200);
-        } else if (this.cursor.right.isDown) {
-            this.player.setVelocityX(200);
+        } 
+        const controlType = localStorage.getItem("controlType") || "keyboard";
+        if (controlType === "handtracking") {
+            const handX = getCurrentHandX(); // [0, 1] là tỉ lệ so với khung hình webcam
+            const canvasWidth = this.sys.canvas.width;
+            const targetX = handX * canvasWidth;
+            this.player.x = Phaser.Math.Clamp(targetX, 0 + this.player.width / 2, canvasWidth - this.player.width / 2);
+            this.player.setVelocityX(0); // giữ đứng yên theo trục X vì ta cập nhật trực tiếp
         } else {
-            this.player.setVelocityX(0);
+            if (this.cursor.left.isDown) {
+                this.player.setVelocityX(-200);
+            } else if (this.cursor.right.isDown) {
+                this.player.setVelocityX(200);
+            } else {
+                this.player.setVelocityX(0);
+            }
         }
         if (this.target.y >= 500) {
             this.target.setY(0);
@@ -67,6 +83,12 @@ export class GameScene extends Phaser.Scene {
         }
     }    
     catchApple() {
+        //Âm thanh khi bắt táo 
+        this.sound.play("coinSound", { volume: 1 });
+        this.score += 10;
+        this.scoreText.setText(`${languageData.vi.score}: ${this.score}`);
+        this.target.setY(0);
+        this.target.setX(Math.random() * 500);
         const lang = localStorage.getItem("language") || "vi";
         const texts = languageData[lang];
         this.score += 10;

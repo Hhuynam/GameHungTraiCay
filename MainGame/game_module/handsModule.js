@@ -4,7 +4,6 @@ export const setupHandsTracking = (canvasElement, toggleBtn) => {
     const hands = new Hands({
         locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
     });
-
     hands.setOptions({
         maxNumHands: 2,
         modelComplexity: 1,
@@ -15,6 +14,7 @@ export const setupHandsTracking = (canvasElement, toggleBtn) => {
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         if (results.multiHandLandmarks) {
             results.multiHandLandmarks.forEach((landmarks) => {
+                currentHandX = landmarks[9].x; // lấy tọa độ X của điểm lòng bàn tay
                 canvasCtx.strokeStyle = "yellow";
                 canvasCtx.lineWidth = 2;
                 for (let i = 0; i < landmarks.length - 1; i++) {
@@ -62,3 +62,5 @@ export const setupWebcamToggle = (toggleBtn, hands) => {
         }
     });
 };
+let currentHandX = 0;
+export const getCurrentHandX = () => currentHandX;
