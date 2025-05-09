@@ -84,3 +84,24 @@ option {
     color: white;
     padding: 10px;
 }
+/*Nút điều khiển ảo*/
+#virtual-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 20px;
+}
+#virtual-controls button {
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  box-shadow: 0 0 10px #000;
+  touch-action: none; /* Ngăn double-tap zoom trên mobile */
+}

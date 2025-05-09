@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
+  <script src="https://connect.facebook.net/en_US/fbinstant.6.3.js"></script>
   <link rel="icon" type="image/x-icon" href="public/assets/favicon.ico">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -16,6 +17,10 @@
   <div id="mainMenu" style="display: block;">
     <button id="startGameBtn">Chơi ngay</button>
     <button id="settingsBtn">Cài đặt</button>
+    <div id="leaderboard">
+      <h3>Bảng xếp hạng:</h3>
+      <ul id="leaderboardList" style="list-style: none; padding: 0;"></ul>
+    </div>    
   </div>
   <div id="settings">
     <label id="fallSpeedLabel">Tốc độ rơi: <input id="speedSlider" type="range" min="10" max="100" step="10"
@@ -30,6 +35,7 @@
         phím</span></label>
     <label><input type="radio" name="controlType" value="handtracking"> <span id="handtrackingLabel">Hand
         Tracking</span></label>
+        <label><input type="radio" name="controlType" value="virtualButtons"> <span id="virtualButtonsLabel">Nút điều khiển ảo</span></label>
     <h3 id="languageSelectTitle">Chọn ngôn ngữ:</h3>
     <select id="languageSelect">
       <option value="vi" selected>Tiếng Việt</option>
@@ -50,6 +56,11 @@
   <div id="canvas_feedback">
       <canvas id="canvas"></canvas>
   </div>
-  <script type="module" src="/game_module/game.js"></script>
+  <!-- Nút điều khiển ảo trái-phải -->
+<div id="virtual-controls">
+  <button id="btn-left">◀</button>
+  <button id="btn-right">▶</button>
+</div>
+  <script type="module" src="/game.js"></script>
 </body>
 </html>

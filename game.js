@@ -1,10 +1,14 @@
 //game.js
 import { GameScene } from './gamescene.js';
 import { languageData } from './language.js';
+import { getTopScores } from './firebaseModule.js';
+import { saveScore } from './firebaseModule.js';
 import { setupHandsTracking, setupWebcamToggle } from './handsModule.js';
 const canvasElement = document.getElementById("canvas");
 const toggleBtn = document.getElementById("Nut_Webcam");
 const hands = setupHandsTracking(canvasElement, toggleBtn);
+const selectedControl = document.querySelector('input[name="controlType"]:checked').value;
+localStorage.setItem("controlType", selectedControl);
 setupWebcamToggle(toggleBtn, hands);
 let game;
 let speedDown = 50;
@@ -61,8 +65,35 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
   });
 });
 document.getElementById("returnToMenuBtn").addEventListener("click", () => {
+  // Ẩn game, hiện menu
   document.getElementById("gameScreen").style.display = "none";
   document.getElementById("mainMenu").style.display = "block";
+  
+  // Xoá game nếu tồn tại
   if (game) game.destroy(true);
+  
+  // 👉 Gọi lại leaderboard ngay
+  loadLeaderboard();
 });
 updateTexts();
+//Bảng xếp hạng
+async function loadLeaderboard() {
+  const list = document.getElementById("leaderboardList");
+  list.innerHTML = "<li>Đang tải...</li>";
+  try {
+    const scores = await getTopScores();
+    if (scores.length === 0) {
+      list.innerHTML = "<li>Chưa có dữ liệu.</li>";
+      return;
+    }
+    list.innerHTML = "";
+    scores.forEach((entry, index) => {
+      const li = document.createElement("li");
+      li.textContent = `${index + 1}. ${entry.name} - ${entry.score} điểm`;
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Lỗi khi tải bảng xếp hạng:", err);
+    list.innerHTML = "<li>Lỗi khi tải dữ liệu.</li>";
+  }
+}
