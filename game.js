@@ -13,6 +13,18 @@ setupWebcamToggle(toggleBtn, hands);
 let game;
 let speedDown = 50;
 let basketSpeed = 200;
+//Khởi tạo facebook sdk
+FBInstant.initializeAsync().then(() => {
+  console.log("Facebook SDK đã được khởi tạo!");
+});
+//Hàm đăng nhập fb sdk 
+function loginWithFacebook() {
+  FBInstant.logEvent('game_start');
+  FBInstant.getSignedPlayerInfoAsync().then((player) => {
+    console.log("Người chơi:", player.getName());
+  });
+}
+//Logic game khác
 function updateTexts() {
   const lang = localStorage.getItem("language") || "vi";
   const texts = languageData[lang];
@@ -72,7 +84,7 @@ document.getElementById("returnToMenuBtn").addEventListener("click", () => {
   // Xoá game nếu tồn tại
   if (game) game.destroy(true);
   
-  // 👉 Gọi lại leaderboard ngay
+  //Gọi lại leaderboard ngay
   loadLeaderboard();
 });
 updateTexts();
