@@ -11,8 +11,8 @@ const selectedControl = document.querySelector('input[name="controlType"]:checke
 localStorage.setItem("controlType", selectedControl);
 setupWebcamToggle(toggleBtn, hands);
 let game;
-let speedDown = 50;
-let basketSpeed = 200;
+let speedDown = parseInt(localStorage.getItem("fallSpeed")) || 50;
+let basketSpeed = parseInt(localStorage.getItem("basketSpeed")) || 200;
 //Khởi tạo facebook sdk
 FBInstant.initializeAsync().then(() => {
   console.log("Facebook SDK đã được khởi tạo!");
@@ -46,8 +46,14 @@ document.getElementById("settingsBtn").addEventListener("click", () => {
   document.getElementById("settings").style.display = "block";
 });
 document.getElementById("saveSettingsBtn").addEventListener("click", () => {
-  speedDown = parseInt(document.getElementById("speedSlider").value);
-  basketSpeed = parseInt(document.getElementById("basketSpeedSlider").value);
+  document.getElementById("speedSlider").addEventListener("input", (event) => {
+    speedDown = parseInt(event.target.value);
+    localStorage.setItem("fallSpeed", speedDown);
+});
+  document.getElementById("basketSpeedSlider").addEventListener("input", (event) => {
+    basketSpeed = parseInt(event.target.value);
+    localStorage.setItem("basketSpeed", basketSpeed);
+});
   const selectedControl = document.querySelector('input[name="controlType"]:checked').value;
   const selectedLanguage = document.getElementById("languageSelect").value;
   const selectedGameMode = document.querySelector('input[name="gameMode"]:checked').value;

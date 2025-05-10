@@ -45,7 +45,7 @@ export class GameScene extends Phaser.Scene {
         rightBtn?.addEventListener("touchend", () => {
             this.rightPressed = false;
             console.log("Nút phải nhả");
-        });        
+        });
         // Logic phát nhạc
         this.bgMusic = this.sound.add("bgMusic", { loop: true, volume: 0.5 });
         this.bgMusic.play();
@@ -89,6 +89,7 @@ export class GameScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.target, this.catchApple, null, this);
     }
     update() {
+        this.target.setVelocityY(speedDown);
         //Logic hiển thị ngôn ngữ lựa chọn
         const lang = localStorage.getItem("language") || "vi";
         const texts = languageData[lang];
@@ -125,12 +126,14 @@ export class GameScene extends Phaser.Scene {
             const targetX = handX * canvasWidth;
             this.player.x = Phaser.Math.Linear(this.player.x, Phaser.Math.Clamp(targetX, 0 + this.player.width / 2, canvasWidth - this.player.width / 2), 0.2);
             this.player.setVelocityX(0);
-        } 
+        }
         else {
+            this.target.setVelocityY(speedDown);
+
             if (this.cursor.left.isDown || this.leftPressed) {
-                this.player.setVelocityX(-200);
+                this.player.setVelocityX(-basketSpeed);
             } else if (this.cursor.right.isDown || this.rightPressed) {
-                this.player.setVelocityX(200);
+                this.player.setVelocityX(basketSpeed);
             } else {
                 this.player.setVelocityX(0);
             }
@@ -180,7 +183,7 @@ function saveScoreToFirebase(name, score, duration) {
             time: Date.now()
         })
     })
-    .then(res => res.json())
-    .then(data => console.log("Điểm đã được lưu:", data))
-    .catch(err => console.error("Lỗi khi lưu điểm:", err));
+        .then(res => res.json())
+        .then(data => console.log("Điểm đã được lưu:", data))
+        .catch(err => console.error("Lỗi khi lưu điểm:", err));
 }
