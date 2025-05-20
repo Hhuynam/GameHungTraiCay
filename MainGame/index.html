@@ -1,55 +1,50 @@
-<!--index.html-->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Hứng Táo</title>
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
-  <link rel="icon" type="image/x-icon" href="public/assets/favicon.ico">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hứng Táo</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
+    <link rel="icon" type="image/x-icon" href="public/assets/favicon.ico">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 id="gameTitle">Game Hứng Táo</h1>
-  <div id="mainMenu" style="display: block;">
-    <button id="startGameBtn">Chơi ngay</button>
-    <button id="settingsBtn">Cài đặt</button>
-  </div>
-  <div id="settings">
-    <label id="fallSpeedLabel">Tốc độ rơi: <input id="speedSlider" type="range" min="10" max="100" step="10"
-        value="50"></label>
-    <span id="speedValue">50</span>
-    <br><br>
-    <label id="basketSpeedLabel">Tốc độ di chuyển giỏ: <input id="basketSpeedSlider" type="range" min="50" max="500"
-        step="50" value="200"></label>
-    <span id="basketSpeedValue">200</span>
-    <h3 id="controlTypeTitle">Chọn kiểu điều khiển:</h3>
-    <label><input type="radio" name="controlType" value="keyboard" checked> <span id="keyboardLabel">Bàn
-        phím</span></label>
-    <label><input type="radio" name="controlType" value="handtracking"> <span id="handtrackingLabel">Hand
-        Tracking</span></label>
-    <h3 id="languageSelectTitle">Chọn ngôn ngữ:</h3>
-    <select id="languageSelect">
-      <option value="vi" selected>Tiếng Việt</option>
-      <option value="en">English</option>
-      <option value="zh">中文</option>
-    </select>
-    <h3>Chọn chế độ chơi:</h3>
-    <label><input type="radio" name="gameMode" value="free" checked> Chế độ Tự Do</label>
-    <label><input type="radio" name="gameMode" value="60s"> Chế độ 60 Giây</label>
-    <button id="saveSettingsBtn">Lưu</button>
-    <button id="backToMenuBtn">Quay lại</button>
-  </div>
-  <div id="gameScreen">
-    <canvas id="gameCanvas"></canvas>
-    <button id="returnToMenuBtn">Về Menu</button>
-  </div>
-  <button id="Nut_Webcam">Bật Webcam</button>
-  <div id="canvas_feedback">
-      <canvas id="canvas"></canvas>
-  </div>
-  <script type="module" src="/game_module/game.js"></script>
+    <h1 id="gameTitle">Game Hứng Táo</h1>
+    <div id="mainMenu" style="display: block;">
+        <button id="startGameBtn">Chơi ngay</button>
+        <button id="settingsBtn">Cài đặt</button>
+    </div>
+    <div id="settings">
+        <label id="fallSpeedLabel">Tốc độ rơi: <input id="speedSlider" type="range" min="10" max="100" step="10" value="50"></label>
+        <span id="speedValue">50</span>
+        <br><br>
+        <label id="basketSpeedLabel">Tốc độ di chuyển giỏ: <input id="basketSpeedSlider" type="range" min="50" max="500" step="50" value="200"></label>
+        <span id="basketSpeedValue">200</span>
+        <h3 id="controlTypeTitle">Chọn kiểu điều khiển:</h3>
+        <label><input type="radio" name="controlType" value="keyboard" checked> <span id="keyboardLabel">Bàn phím</span></label>
+        <label><input type="radio" name="controlType" value="handtracking"> <span id="handtrackingLabel">Hand Tracking</span></label>
+        <h3 id="languageSelectTitle">Chọn ngôn ngữ:</h3>
+        <select id="languageSelect">
+            <option value="vi" selected>Tiếng Việt</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+        </select>
+        <h3>Chọn chế độ chơi:</h3>
+        <label><input type="radio" name="gameMode" value="free" checked> Chế độ Tự Do</label>
+        <label><input type="radio" name="gameMode" value="60s"> Chế độ 60 Giây</label>
+        <button id="saveSettingsBtn">Lưu</button>
+        <button id="backToMenuBtn">Quay lại</button>
+    </div>
+    <div id="gameScreen">
+        <canvas id="gameCanvas"></canvas>
+        <button id="returnToMenuBtn">Về Menu</button>
+    </div>
+    <button id="Nut_Webcam">Bật Webcam</button>
+    <div id="canvas_feedback">
+        <canvas id="canvas"></canvas>
+    </div>
+    <script type="module" src="/game_module/game.js"></script>
 </body>
 </html>

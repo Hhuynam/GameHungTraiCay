@@ -43,6 +43,10 @@ document.getElementById("saveSettingsBtn").addEventListener("click", () => {
   updateTexts();
   alert("Cài đặt đã được lưu!");
 });
+document.getElementById("saveSettingsBtn").addEventListener("click", () => {
+    speedDown = parseInt(document.getElementById("speedSlider").value);
+    localStorage.setItem("fallSpeed", speedDown);
+});
 document.getElementById("backToMenuBtn").addEventListener("click", () => {
   document.getElementById("settings").style.display = "none";
   document.getElementById("mainMenu").style.display = "block";
